@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e130d">
+<title>Проводы Альжана</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Russo+One&display=swap" rel="stylesheet">
+<style>
+/* Идея: армейское личное дело в цветах казахстанского флага. Тёмный хаки, бумажные карточки, небесно-голубой и золотой акценты. */
+:root{
+  --bg:#0e130d;
+  --panel:#171f14;
+  --ink:#eef0e2;
+  --muted:#a9b39a;
+  --paper:#ece6d0;
+  --paper-ink:#1d2417;
+  --sky:#00afca;
+  --gold:#f2b705;
+  --line:rgba(238,240,226,.14);
+  --font-display:"Russo One","Arial Black",Impact,sans-serif;
+  --font-body:"PT Sans","Helvetica Neue",Arial,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:17px;line-height:1.5;
+  background-image:
+    radial-gradient(ellipse 220px 120px at 12% 8%,rgba(60,78,44,.35),transparent 70%),
+    radial-gradient(ellipse 260px 140px at 88% 22%,rgba(46,60,34,.4),transparent 70%),
+    radial-gradient(ellipse 240px 130px at 20% 55%,rgba(56,70,40,.3),transparent 70%),
+    radial-gradient(ellipse 280px 150px at 85% 78%,rgba(60,78,44,.3),transparent 70%);
+  background-attachment:scroll;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
+.wrap{width:100%;max-width:760px;margin:0 auto;padding:0 18px}
+h1,h2,h3{font-family:var(--font-display);font-weight:400;margin:0;text-wrap:balance;letter-spacing:.01em}
+h2{font-size:clamp(26px,7vw,36px);line-height:1.1;color:var(--gold)}
+.eyebrow{font-family:var(--font-display);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--sky);margin:0 0 8px}
+section{padding:44px 0 8px}
+.sec-head{margin-bottom:20px}
+.sec-head p{margin:8px 0 0;color:var(--muted);max-width:52ch}
+
+/* лента сверху */
+.tape{
+  padding-top:env(safe-area-inset-top);
+  background:var(--gold);color:#17200f;overflow:hidden;white-space:nowrap;
+  font-family:var(--font-display);font-size:13px;letter-spacing:.12em;
+}
+.tape-track{display:inline-flex;gap:28px;padding:9px 0;animation:slide 32s linear infinite}
+.tape-track span{flex:none}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* первый экран */
+.hero{position:relative;isolation:isolate}
+.hero-photo{position:relative;height:min(78vh,560px);min-height:420px;overflow:hidden}
+.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:35% 30%}
+.hero-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(14,19,13,0) 35%,rgba(14,19,13,.75) 78%,var(--bg) 100%)}
+.hero-text{position:relative;margin-top:-170px;z-index:2;padding-bottom:8px}
+.stamp{
+  display:inline-block;border:2px solid var(--gold);color:var(--gold);padding:3px 10px;border-radius:4px;
+  font-family:var(--font-display);font-size:13px;letter-spacing:.14em;transform:rotate(-2deg);margin-bottom:10px;
+}
+h1{font-size:clamp(56px,19vw,120px);line-height:.95;color:var(--ink);text-shadow:0 3px 0 rgba(0,0,0,.4)}
+h1 em{font-style:normal;color:var(--gold)}
+.lead{font-size:clamp(19px,5vw,24px);margin:14px 0 0;max-width:30ch;font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{border:1px solid var(--line);background:rgba(23,31,20,.8);border-radius:999px;padding:6px 14px;font-size:15px}
+.chip b{color:var(--gold)}
+
+/* счётчик */
+.counter{
+  background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px 16px 20px;
+  border-top:5px solid var(--sky);
+}
+.counter .label{font-family:var(--font-display);font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 14px;text-align:center}
+.cells{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.cell{background:#0b100a;border:1px solid var(--line);border-radius:12px;padding:12px 2px 10px;text-align:center;min-width:0}
+.cell .num{display:block;font-family:var(--font-display);font-size:clamp(30px,10vw,58px);line-height:1;color:var(--gold);font-variant-numeric:tabular-nums}
+.cell .unit{display:block;margin-top:6px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.bar{margin-top:20px;height:12px;border-radius:99px;background:#0b100a;border:1px solid var(--line);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:repeating-linear-gradient(135deg,var(--gold) 0 10px,#d9a304 10px 20px);border-radius:99px}
+.bar-meta{display:flex;justify-content:space-between;gap:10px;margin-top:8px;font-size:14px;color:var(--muted)}
+.facts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:18px}
+.fact{border:1px dashed var(--line);border-radius:12px;padding:12px 14px}
+.fact strong{display:block;font-family:var(--font-display);font-weight:400;font-size:clamp(18px,5vw,24px);color:var(--ink);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.fact span{font-size:13px;color:var(--muted)}
+
+/* галерея */
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:16px 14px;align-items:start}
+.shot{
+  margin:0;background:var(--paper);color:var(--paper-ink);padding:8px 8px 12px;border-radius:6px;position:relative;
+  box-shadow:0 8px 22px rgba(0,0,0,.45);cursor:zoom-in;
+}
+.shot:nth-child(odd){transform:rotate(-.8deg)}
+.shot:nth-child(even){transform:rotate(.8deg)}
+.shot.wide{grid-column:1/-1}
+.shot button{all:unset;display:block;width:100%;cursor:zoom-in}
+.shot button:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+.shot img{width:100%;height:auto;border-radius:2px;background:#222}
+.shot.tall img{aspect-ratio:3/4;object-fit:cover;object-position:center 40%}
+.tag{
+  position:absolute;top:-9px;left:12px;background:var(--sky);color:#04222a;font-family:var(--font-display);
+  font-size:11px;letter-spacing:.1em;padding:3px 8px;border-radius:3px;z-index:1;text-transform:uppercase;
+}
+.shot figcaption{padding:10px 4px 0;font-size:15px;line-height:1.35;font-weight:700}
+.quote-tile{
+  grid-column:auto;background:var(--sky);color:#04222a;border-radius:6px;padding:18px 16px;min-height:100%;
+  display:flex;flex-direction:column;justify-content:center;gap:10px;box-shadow:0 8px 22px rgba(0,0,0,.45);transform:rotate(.8deg);
+}
+.quote-tile p{margin:0;font-family:var(--font-display);font-size:clamp(20px,5.6vw,28px);line-height:1.15}
+.quote-tile small{font-size:13px;font-weight:700;opacity:.8}
+
+/* лайтбокс */
+.lb{position:fixed;inset:0;background:rgba(5,8,4,.94);display:none;align-items:center;justify-content:center;z-index:50;padding:16px;cursor:zoom-out}
+.lb.open{display:flex}
+.lb img{max-height:100%;max-width:100%;object-fit:contain;border-radius:6px}
+.lb-x{position:absolute;top:calc(12px + env(safe-area-inset-top));right:14px;background:var(--gold);color:#17200f;border:0;border-radius:999px;width:44px;height:44px;font-size:22px;font-weight:700;cursor:pointer}
+
+/* пожелания */
+.wishes{display:grid;gap:12px}
+.wish{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--sky);border-radius:12px;padding:14px 16px}
+.wish p{margin:0 0 8px;font-size:18px;line-height:1.4}
+.wish cite{font-style:normal;font-family:var(--font-display);font-size:14px;letter-spacing:.06em;color:var(--gold)}
+.wish.big{background:var(--paper);color:var(--paper-ink);border-left-color:var(--gold);padding:20px 18px}
+.wish.big p{font-size:20px}
+.wish.big cite{color:#7a5a00}
+
+/* памятка */
+.rules{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:r}
+.rules li{counter-increment:r;display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start;border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:rgba(23,31,20,.7)}
+.rules li::before{content:counter(r);font-family:var(--font-display);font-size:22px;color:#17200f;background:var(--gold);border-radius:8px;width:44px;height:44px;display:grid;place-items:center}
+.rules b{display:block;font-size:18px}
+.rules span{color:var(--muted);font-size:15px}
+
+/* контакты */
+.actions{display:grid;gap:10px;margin-bottom:10px}
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:12px 18px;border-radius:14px;
+  font-family:var(--font-display);font-size:16px;letter-spacing:.04em;text-align:center;cursor:pointer;border:2px solid var(--gold);
+}
+.btn-main{background:var(--gold);color:#17200f}
+.btn-alt{background:transparent;color:var(--gold)}
+.btn:active{transform:translateY(1px)}
+.hint{font-size:14px;color:var(--muted);margin:6px 0 18px}
+.hint a{color:var(--sky)}
+#status{min-height:1.4em;color:var(--sky);font-size:15px;margin:0 0 10px}
+.contacts{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.contact a{
+  display:grid;grid-template-columns:46px 1fr auto;gap:12px;align-items:center;text-decoration:none;
+  background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 14px;min-height:60px;
+}
+.ava{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--sky);color:#04222a;font-family:var(--font-display);font-size:20px}
+.contact:nth-child(3n+2) .ava{background:var(--gold);color:#17200f}
+.contact:nth-child(3n) .ava{background:var(--paper);color:var(--paper-ink)}
+.c-name{font-weight:700;font-size:19px;line-height:1.2}
+.c-tel{font-variant-numeric:tabular-nums;color:var(--muted);font-size:15px;white-space:nowrap}
+.c-call{font-family:var(--font-display);font-size:12px;letter-spacing:.1em;color:var(--sky);text-transform:uppercase}
+@media (max-width:420px){
+  .contact a{grid-template-columns:46px 1fr}
+  .c-call{display:none}
+}
+
+footer{margin-top:52px;padding:30px 0 calc(34px + env(safe-area-inset-bottom));border-top:1px solid var(--line);text-align:center}
+footer .big{font-family:var(--font-display);font-size:clamp(22px,6vw,30px);color:var(--gold);margin:0 0 8px;text-wrap:balance}
+footer p{margin:0;color:var(--muted);font-size:15px}
+
+@media (min-width:640px){
+  .actions{grid-template-columns:1fr 1fr}
+  .contacts{grid-template-columns:1fr 1fr}
+  .contact a{grid-template-columns:46px 1fr}
+  .c-call{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .tape-track{animation:none}
+  .btn:active{transform:none}
+}
+@media print{
+  body{background:#fff;color:#000}
+  .tape,.actions,.hint,#status,.hero,.gallery,.lb{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="tape" aria-hidden="true">
+  <div class="tape-track">
+    <span>ПРИЗЫВ 25.11.2026</span><span>★</span><span>ДМБ 25.11.2027</span><span>★</span><span>ОТАН — БІР, ХАЛЫҚ — БІР, ЕЛ — БІР</span><span>★</span><span>ПРИЗЫВ 25.11.2026</span><span>★</span><span>ДМБ 25.11.2027</span><span>★</span><span>ОТАН — БІР, ХАЛЫҚ — БІР, ЕЛ — БІР</span><span>★</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="hero-photo">
+    <img src="photos/03-flag.jpg" alt="Альжан в военной форме на фоне флага Казахстана" width="1199" height="1312">
+  </div>
+  <div class="wrap hero-text">
+    <span class="stamp">ЛИЧНОЕ ДЕЛО №1</span>
+    <h1>Рядовой <em>Альжан</em></h1>
+    <p class="lead">Отан алдында борышыңды өтеп, аман-есен кел!</p>
+    <div class="chips">
+      <span class="chip">Уходит: <b>25 ноября 2026</b></span>
+      <span class="chip">Дембель: <b>25 ноября 2027</b></span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="counter" aria-labelledby="t-counter">
+    <div class="sec-head">
+      <p class="eyebrow">Счётчик</p>
+      <h2 id="t-counter">До дембеля</h2>
+    </div>
+    <div class="counter">
+      <p class="label" id="state">Служба начинается 25 ноября</p>
+      <div class="cells" role="timer" aria-live="off">
+        <div class="cell"><span class="num" id="d">365</span><span class="unit">дней</span></div>
+        <div class="cell"><span class="num" id="h">00</span><span class="unit">часов</span></div>
+        <div class="cell"><span class="num" id="m">00</span><span class="unit">минут</span></div>
+        <div class="cell"><span class="num" id="s">00</span><span class="unit">секунд</span></div>
+      </div>
+      <div class="bar" role="progressbar" aria-label="Сколько службы прошло" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="barbox"><i id="bar"></i></div>
+      <div class="bar-meta"><span id="passed">Прошло: 0 дней</span><span id="pct">0%</span></div>
+      <div class="facts">
+        <div class="fact"><strong id="f-h">8 760</strong><span>часов осталось</span></div>
+        <div class="fact"><strong id="f-m">525 600</strong><span>минут осталось</span></div>
+        <div class="fact"><strong id="f-s">31 536 000</strong><span>секунд осталось</span></div>
+        <div class="fact"><strong id="f-p">54 750</strong><span>картошин по 150 в день (шутка)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="foto" aria-labelledby="t-foto">
+    <div class="sec-head">
+      <p class="eyebrow">Фотоархив</p>
+      <h2 id="t-foto">Материалы дела</h2>
+      <p>Нажми на фото, чтобы открыть на весь экран.</p>
+    </div>
+    <div class="gallery">
+      <figure class="shot wide">
+        <span class="tag">В строю</span>
+        <button type="button" data-full="photos/01-stroy.jpg" aria-label="Открыть фото: Альжан в строю"><img src="photos/01-stroy.jpg" alt="Альжан в строю в зимней форме, на здании надпись Отан бір, халық бір, ел бір" width="1400" height="934"></button>
+        <figcaption>Первое построение. Выправка есть, осталось научиться стоять смирно, когда в столовой пахнет пловом.</figcaption>
+      </figure>
+
+      <figure class="shot tall">
+        <span class="tag">Наряд</span>
+        <button type="button" data-full="photos/02-kartoshka.jpg" aria-label="Открыть фото: Альжан чистит картошку"><img src="photos/02-kartoshka.jpg" alt="Альжан в форме чистит картошку у больших кастрюль" width="1050" height="1400"></button>
+        <figcaption>Боевая задача №1: победить картошку. Счёт пока в пользу картошки.</figcaption>
+      </figure>
+      <figure class="shot tall">
+        <span class="tag">Гражданка</span>
+        <button type="button" data-full="photos/04-panama.jpg" aria-label="Открыть фото: Альжан в панаме"><img src="photos/04-panama.jpg" alt="Альжан в жёлто-фиолетовой панаме в магазине" width="1050" height="1400"></button>
+        <figcaption>Последняя панама на гражданке. Через год снова примерим.</figcaption>
+      </figure>
+
+      <figure class="shot wide">
+        <span class="tag">Вся банда</span>
+        <button type="button" data-full="photos/06-svadba.jpg" aria-label="Открыть фото: друзья на свадьбе Ернара"><img src="photos/06-svadba.jpg" alt="Друзья на свадьбе Ернара и Арюжан" width="1400" height="934"></button>
+        <figcaption>Свадьба Ернара, лето 2026. Вот так выглядит команда, которая будет ждать тебя дома.</figcaption>
+      </figure>
+
+      <figure class="shot tall">
+        <span class="tag">Братва</span>
+        <button type="button" data-full="photos/05-svadba-portret.jpg" aria-label="Открыть фото: друзья у свадебной фотозоны"><img src="photos/05-svadba-portret.jpg" alt="Друзья у свадебной фотозоны, 31.07.2026" width="934" height="1400" style="object-position:center 55%"></button>
+        <figcaption>Фотозона, 31.07.2026. Место для одного человека оставили.</figcaption>
+      </figure>
+      <figure class="shot tall">
+        <span class="tag">Вечер</span>
+        <button type="button" data-full="photos/07-kafe.jpg" aria-label="Открыть фото: вечер в кафе"><img src="photos/07-kafe.jpg" alt="Вечерний снимок в кафе у окна" width="1050" height="1400"></button>
+        <figcaption>Нормальная еда и тёплое кафе. Запоминай, пригодится в мыслях.</figcaption>
+      </figure>
+
+      <figure class="shot tall">
+        <span class="tag">Мороз</span>
+        <button type="button" data-full="photos/08-hokkey.jpg" aria-label="Открыть фото: четверо друзей зимой у памятника"><img src="photos/08-hokkey.jpg" alt="Четверо друзей в зимних куртках у памятника хоккеисту" width="1050" height="1400"></button>
+        <figcaption>Зимняя тренировка. Холод — тоже подготовка к службе.</figcaption>
+      </figure>
+      <div class="quote-tile">
+        <p>Отан — бір, халық — бір, ел — бір.</p>
+        <small>Написано на здании за твоей спиной. Мы просто повторяем.</small>
+      </div>
+    </div>
+  </section>
+
+  <section id="wishes" aria-labelledby="t-wishes">
+    <div class="sec-head">
+      <p class="eyebrow">Тілектер</p>
+      <h2 id="t-wishes">Пожелания от друзей</h2>
+    </div>
+    <div class="wishes">
+      <blockquote class="wish big" style="margin:0">
+        <p>Бір жыл — көп емес, тез өтеді. Картошка таусылады, наряд бітеді, ал біздің достығымыз сол қалпында қалады. Қайда жүрсең де, біз сенің жаныңдамыз. Аман-есен кел, бауырым! Үйде күтеміз.</p>
+        <cite>Асқар</cite>
+      </blockquote>
+      <blockquote class="wish" style="margin:0"><p>Отан алдында борышыңды өтеп аман есен кел!</p><cite>Амоня</cite></blockquote>
+      <blockquote class="wish" style="margin:0"><p>Альжан армияға наконец то кетті</p><cite>Касик</cite></blockquote>
+      <blockquote class="wish" style="margin:0"><p>Мен айтқандарды енді түсінетін боласың</p><cite>Ақжан</cite></blockquote>
+      <blockquote class="wish" style="margin:0"><p>Альжан бля мені сдавать етіп жіберме удачи а так</p><cite>Сырым</cite></blockquote>
+      <blockquote class="wish" style="margin:0"><p>Ал бауырым, хабарда! Телефон білесің всегда на связи!</p><cite>Ернар</cite></blockquote>
+      <blockquote class="wish" style="margin:0"><p>Абонент не абонент (шучу на связи ғой заебал)</p><cite>Сайка</cite></blockquote>
+      <blockquote class="wish" style="margin:0"><p>Бля ақша сұрау жоғынан</p><cite>Арсен</cite></blockquote>
+    </div>
+  </section>
+
+  <section id="pamyatka" aria-labelledby="t-rules">
+    <div class="sec-head">
+      <p class="eyebrow">Устав</p>
+      <h2 id="t-rules">Памятка новобранцу</h2>
+    </div>
+    <ol class="rules">
+      <li><div><b>Картошка — не враг, а задание.</b><span>Чисти ровно, считать будем при встрече.</span></div></li>
+      <li><div><b>Командира слушай, друзей помни.</b><span>Порядок именно такой.</span></div></li>
+      <li><div><b>Дали телефон — звони в группу.</b><span>Сайка уже предупредил: «абонент не абонент» не принимается.</span></div></li>
+      <li><div><b>Носки сухие, ноги тёплые.</b><span>Остальное приложится.</span></div></li>
+      <li><div><b>Каждый день смотри на счётчик.</b><span>Он идёт в твою пользу.</span></div></li>
+    </ol>
+  </section>
+
+  <section id="kontakty" aria-labelledby="t-contacts">
+    <div class="sec-head">
+      <p class="eyebrow">На связи</p>
+      <h2 id="t-contacts">Кому звонить</h2>
+      <p>Все 14 номеров. Сохрани в телефон одним файлом или распечатай и положи в карман.</p>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn-main" id="btn-vcf">Сохранить все в контакты</button>
+      <button type="button" class="btn btn-alt" id="btn-pdf">Скачать PDF для печати</button>
+    </div>
+    <p id="status" role="status" aria-live="polite"></p>
+    <p class="hint">На iPhone: открой скачанный файл и нажми «Добавить все контакты». Если кнопка PDF не сработала, открой <a href="contacts/druzya-alzhana.pdf">список для печати</a> прямой ссылкой.</p>
+
+    <ul class="contacts" id="list">
+      <li class="contact" data-name="Амоня" data-tel="+77082602102"><a href="tel:+77082602102"><span class="ava">А</span><span><span class="c-name">Амоня</span><br><span class="c-tel">+7 (708) 260-21-02</span></span><span class="c-call">позвонить</span></a></li>
+      <li class="contact" data-name="Акжан" data-tel="+77083676518"><a href="tel:+77083676518"><span class="ava">А</span><span><span class="c-name">Акжан</span><br><span class="c-tel">+7 (708) 367-65-18</span></span><span class="c-call">позвонить</span></a></li>
+      <li class="contact" data-name="Ернар" data-tel="+77758880019"><a href="tel:+77758880019"><span class="ava">Е</span><span><span class="c-name">Ернар</span><br><span class="c-tel">+7 (775) 888-00-19</span></span><span class="c-call">позвонить</span></a></li>
+      <li class="contact" data-name="Адиль" data-tel="+77068889962"><a href="tel:+77068889962"><span class="ava">А</span><span><span class="c-name">Адиль</span><br><span class="c-tel">+7 (706) 888-99-62</span></span><span class="c-call">позвонить</span></a></li>
+      <li class="contact" data-name="Адияр" data-tel="+77713583064"><a href="tel:+77713583064"><span class="ava">А</span><span><span class="c-name">Адияр</span><br><span class="c-tel">+7 (771) 358-30-64</span></span><span class="c-call">позвонить</span></a></li>
+      <li class="contact" data-name="Арсен" data-tel="+77780423494"><a href="tel:+77780423494"><span class="ava">А</span><span><span class="c-name">Арсен</span><br><span class="c-tel">+7 (778) 042-34-94</span></span><span class="c-call">позвонить</span></a></li>
+      <li class="contact" data-name="Сайка" data-tel="+77781423366"><a href="tel:+77781423366"><span class="ava">С</span><span><span class="c-name">Сайка</span><br><span class="c-tel">+7 (778) 142-33-66</span></span><span class="c-call">позвонить</span></a></li>
+      <li class="contact" data-name="Касик" data-tel="+77081122419"><a href="tel:+77081122419"><span class="ava">К</span><span><span class="c-name">Касик</span><br><span class="c-tel">+7 (708) 112-24-19</span></span><span class="c-call">позвонить</span></a></li>
+      <li class="contact" data-name="Маков" data-tel="+77071897335"><a href="tel:+77071897335"><span class="ava">М</span><span><span class="c-name">Маков</span><br><span class="c-tel">+7 (707) 189-73-35</span></span><span class="c-call">позвонить</span></a></li>
+      <li class="contact" data-name="Сырым" data-tel="+77085375477"><a href="tel:+77085375477"><span class="ava">С</span><span><span class="c-name">Сырым</span><br><span class="c-tel">+7 (708) 537-54-77</span></span><span class="c-call">позвонить</span></a></li>
+      <li class="contact" data-name="Санжик" data-tel="+77768780019"><a href="tel:+77768780019"><span class="ava">С</span><span><span class="c-name">Санжик</span><br><span class="c-tel">+7 (776) 878-00-19</span></span><span class="c-call">позвонить</span></a></li>
+      <li class="contact" data-name="Толя" data-tel="+77059639143"><a href="tel:+77059639143"><span class="ava">Т</span><span><span class="c-name">Толя</span><br><span class="c-tel">+7 (705) 963-91-43</span></span><span class="c-call">позвонить</span></a></li>
+      <li class="contact" data-name="Дима" data-tel="+77776178531"><a href="tel:+77776178531"><span class="ava">Д</span><span><span class="c-name">Дима</span><br><span class="c-tel">+7 (777) 617-85-31</span></span><span class="c-call">позвонить</span></a></li>
+      <li class="contact" data-name="Паша" data-tel="+77718550302"><a href="tel:+77718550302"><span class="ava">П</span><span><span class="c-name">Паша</span><br><span class="c-tel">+7 (771) 855-03-02</span></span><span class="c-call">позвонить</span></a></li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="big">Аман-есен орал, Альжан!</p>
+    <p>Ждём тебя дома 25 ноября 2027. Друзья.</p>
+  </div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Фото на весь экран">
+  <button type="button" class="lb-x" id="lb-x" aria-label="Закрыть">×</button>
+  <img id="lb-img" alt="">
+</div>
+
+<script>
+(function(){
+  var START = new Date('2026-11-25T00:00:00+05:00');
+  var END   = new Date('2027-11-25T00:00:00+05:00');
+  var DAY = 86400000;
+  function $(id){ return document.getElementById(id); }
+  function pad(n){ return (n < 10 ? '0' : '') + n; }
+  function fmt(n){ return Math.max(0, Math.floor(n)).toLocaleString('ru-RU'); }
+
+  function tick(){
+    var now = new Date();
+    var rem = END - now;
+    if (rem <= 0){
+      $('state').textContent = 'Дембель! С возвращением, Альжан';
+      $('d').textContent = '0'; $('h').textContent = '00'; $('m').textContent = '00'; $('s').textContent = '00';
+      $('bar').style.width = '100%'; $('pct').textContent = '100%'; $('barbox').setAttribute('aria-valuenow','100');
+      return;
+    }
+    var d = Math.floor(rem / DAY);
+    var h = Math.floor(rem % DAY / 3600000);
+    var m = Math.floor(rem % 3600000 / 60000);
+    var s = Math.floor(rem % 60000 / 1000);
+    $('d').textContent = d; $('h').textContent = pad(h); $('m').textContent = pad(m); $('s').textContent = pad(s);
+    $('f-h').textContent = fmt(rem / 3600000);
+    $('f-m').textContent = fmt(rem / 60000);
+    $('f-s').textContent = fmt(rem / 1000);
+    $('f-p').textContent = fmt(Math.ceil(rem / DAY) * 150);
+
+    var served = now - START;
+    var pct = Math.min(100, Math.max(0, served / (END - START) * 100));
+    $('bar').style.width = pct + '%';
+    $('pct').textContent = pct.toFixed(1).replace('.', ',') + '%';
+    $('barbox').setAttribute('aria-valuenow', pct.toFixed(0));
+    $('passed').textContent = 'Прошло: ' + Math.max(0, Math.floor(served / DAY)) + ' дн.';
+    $('state').textContent = now < START ? 'Служба начинается 25 ноября' : 'Служба идёт. Держись, бауырым';
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  /* файлы */
+  var statusEl = $('status');
+  function say(t){ statusEl.textContent = t; }
+
+  async function saveFile(filename, blob){
+    try {
+      if (typeof claude !== 'undefined' && claude.use){
+        var dl = await claude.use('downloads');
+        if (dl){ await dl.save({ filename: filename, data: blob }); return true; }
+      }
+    } catch (e) { /* пробуем обычный способ */ }
+    try {
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      document.body.appendChild(a); a.click(); a.remove();
+      return true;
+    } catch (e) { return false; }
+  }
+
+  function buildVcf(){
+    var out = '';
+    document.querySelectorAll('#list .contact').forEach(function(li){
+      out += 'BEGIN:VCARD\r\nVERSION:3.0\r\nN:' + li.dataset.name + ';;;;\r\nFN:' + li.dataset.name +
+             '\r\nORG:Друзья Альжана\r\nTEL;TYPE=CELL,VOICE:' + li.dataset.tel + '\r\nEND:VCARD\r\n';
+    });
+    return out;
+  }
+
+  $('btn-vcf').addEventListener('click', async function(){
+    say('Готовлю файл…');
+    var ok = await saveFile('druzya-alzhana.vcf', new Blob([buildVcf()], { type: 'text/vcard;charset=utf-8' }));
+    say(ok ? 'Файл контактов готов. Открой его и добавь все номера.' : 'Не получилось. Попробуй открыть страницу в Safari.');
+  });
+
+  $('btn-pdf').addEventListener('click', async function(){
+    say('Готовлю PDF…');
+    try {
+      var r = await fetch('contacts/druzya-alzhana.pdf');
+      var b = await r.blob();
+      var ok = await saveFile('druzya-alzhana.pdf', new Blob([b], { type: 'application/pdf' }));
+      say(ok ? 'PDF готов. Открой и распечатай.' : 'Не получилось. Используй прямую ссылку ниже.');
+    } catch (e) {
+      say('Не получилось. Используй прямую ссылку ниже.');
+    }
+  });
+
+  /* лайтбокс */
+  var lb = $('lb'), lbImg = $('lb-img');
+  function openLb(src, alt){ lbImg.src = src; lbImg.alt = alt || ''; lb.classList.add('open'); $('lb-x').focus(); }
+  function closeLb(){ lb.classList.remove('open'); lbImg.removeAttribute('src'); }
+  document.querySelectorAll('.shot button').forEach(function(b){
+    b.addEventListener('click', function(){ openLb(b.dataset.full, b.querySelector('img').alt); });
+  });
+  lb.addEventListener('click', closeLb);
+  $('lb-x').addEventListener('click', closeLb);
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeLb(); });
+})();
+</script>
+</body>
+</html>
